@@ -10,7 +10,6 @@ $(function() {
     });
     // 表单验证功能
     var form = layui.form;
-    var token = null;
     form.verify({
         password: [
             /^[\S]{6,12}$/, '密码必须6到12位，且不能出现空格'
@@ -40,18 +39,17 @@ $(function() {
     })
     $('#form_login').on('submit', function(e) {
         e.preventDefault()
-        console.log($(this).serialize());
         $.ajax({
             url: '/api/login',
             method: 'POST',
             data: $(this).serialize(),
             success: function(res) {
+                console.log(res);
                 if (res.status != 0) {
                     return layer.msg('登录失败');
                 }
-                token = res.token;
-                localStorage.setItem('token', token)
-                location.href = '/index.html'
+                localStorage.setItem('token', res.token)
+                    // location.href = '/index.html'
             }
         })
     })
