@@ -11,14 +11,8 @@ $(function() {
                     return layer.msg('获取用户信息失败')
                 }
                 renderAvatar(res)
-            },
-            complete: function(res) {
-                console.log(res);
-                if (res.responseJSON.status == 1 && res.responseJSON.message == '身份认证失败！') {
-                    localStorage.removeItem('token');
-                    location.href = '/login.html'
-                }
             }
+
         });
     }
     //获取到信息后渲染头像和欢迎名字
