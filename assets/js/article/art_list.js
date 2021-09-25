@@ -8,7 +8,22 @@ $(function() {
             cate_id: '', //文章分类ID
             state: '' //文章状态
         }
-        //初始化页面table中的数据
+        //设置美化事件过滤器
+    template.defaults.imports.dataFormat = function(data) {
+            var dt = new Date(data);
+            var n = dt.getFullYear()
+            var m = padZero(dt.getMonth() + 1)
+            var d = padZero(dt.getDate())
+            var hh = padZero(dt.getHours())
+            var mm = padZero(dt.getMinutes())
+            var ss = padZero(dt.getSeconds())
+            return n + '-' + m + '-' + d + '  ' + hh + ':' + mm + ':' + ss
+        }
+        //设置补零函数
+    function padZero(n) {
+        return n = n > 9 ? n : '0' + n
+    }
+    //初始化页面table中的数据
     initTable()
     initCate()
 
@@ -57,6 +72,7 @@ $(function() {
             count: data, //数据总数，从服务端得到
             limit: q.pagesize,
             curr: q.pagenum,
+            limits: [2, 3, 5, 10],
             layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'],
             jump: function(obj, first) {
                 console.log();
@@ -70,15 +86,19 @@ $(function() {
         });
     }
     //删除功能
-    $('.btn-delete').on('click', function() {
+    $('body').on('click', '.btn-delete', function() {
         var len = $('.btn-delete').length
+        var id = $(this).attr('data-id');
+        console.log(len);
         layer.confirm('确定删除?', { icon: 3, title: '提示' }, function(index) {
             //do something
-            var id = $(this).attr('data-id');
+
+            console.log(id);
             $.ajax({
                 method: 'GET',
                 url: '/my/article/delete/' + id,
                 success: function(res) {
+                    console.log(res);
                     if (res.status != 0) {
                         return layer.msg('删除失败')
                     }

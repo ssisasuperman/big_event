@@ -11,6 +11,7 @@ $(function() {
             method: 'GET',
             url: '/my/article/cates',
             success: function(res) {
+                console.log(res);
                 if (res.status != 0) {
                     return layer.msg('文章类别初始化失败')
                 }
@@ -39,8 +40,8 @@ $(function() {
 
     //监听coverFile的change事件将图片上传到裁剪区域中
     $('#coverFile').on('change', function(e) {
-        var file = e.target.files;
-        if (file.length === 0) {
+        var files = e.target.files;
+        if (files.length === 0) {
             return
         }
         var newImgURL = URL.createObjectURL(file[0])
@@ -56,8 +57,8 @@ $(function() {
         // 点击按钮监听form表单的提交事件
     $('#form_pub').on('submit', function(e) {
             e.preventDefault();
-            var fm = new FormData($(this)[0]);
-            fm.append('state', cate_state);
+            var fd = new FormData($(this)[0]);
+            fd.append('state', cate_state);
             $image
                 .cropper('getCroppedCanvas', { // 创建一个 Canvas 画布
                     width: 400,
@@ -65,16 +66,16 @@ $(function() {
                 })
                 .toBlob(function(blob) { // 将 Canvas 画布上的内容，转化为文件对象
                     // 得到文件对象后，进行后续的操作
-                    fm.append('cover_img', blob);
+                    fd.append('cover_img', blob);
+                    publishArticle(fd)
                 })
-            publishArticle(fm)
         })
         //发布文章
-    function publishArticle(fm) {
+    function publishArticle(fd) {
         $.ajax({
             method: 'POST',
             url: '/my/article/add',
-            data: fm,
+            data: fd,
             contentType: false,
             processData: false,
             success: function(res) {

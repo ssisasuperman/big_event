@@ -14,19 +14,15 @@
 
 <body>
     <div class="layui-card">
-
-
         <div class="layui-card-header">文章列表</div>
         <div class="layui-card-body">
             <!-- 筛选 -->
             <form class="layui-form" id="form-search">
                 <div class="layui-form-item layui-inline">
-                    <select name="cate_id">
-
-                          </select>
+                    <select name="cate_id"></select>
                 </div>
                 <div class="layui-form-item layui-inline">
-                    <select name="state" lay-verify="">
+                    <select name="state">
                             <option value="">请选择状态</option>
                             <option value="已发布">已发布</option>
                             <option value="草稿">草稿</option>
@@ -56,19 +52,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>贤心</td>
-                        <td>贤心</td>
-                        <td>贤心</td>
-                        <td>2016-11-29</td>
-                        <td>
-                            <button type="button" class="layui-btn layui-btn-xs btn-edit" data-id="{{$value.Id}}">编辑</button><button type="button" class="layui-btn layui-btn-danger layui-btn-xs btn-delete" data-id="{{$value.Id}}">删除</button>
-                        </td>
-                    </tr>
                 </tbody>
             </table>
             <!-- 分页器 -->
-            <div class="pageBox"></div>
+            <div id="pageBox"></div>
         </div>
 
     </div>
@@ -78,7 +65,7 @@
         <tr>
             <td>{{$value.title}}</td>
             <td>{{$value.cate_name}}</td>
-            <td>{{$value.pub_date}}</td>
+            <td>{{$value.pub_date|dataFormat}}</td>
             <td>{{$value.state}}</td>
             <td>
                 <button type="button" class="layui-btn layui-btn-xs btn-edit" data-id="{{$value.Id}}">编辑</button><button type="button" class="layui-btn layui-btn-danger layui-btn-xs btn-delete" data-id="{{$value.Id}}">删除</button>
